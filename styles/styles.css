@@ -27,4 +27,6 @@
     flex-wrap:wrap;
 }
 
-
+.nav-item {
+    margin: 5px
+}
