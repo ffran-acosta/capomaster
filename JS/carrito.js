@@ -1,8 +1,24 @@
 import productosDisponibles from '../data/db-productos.js'
 
 document.addEventListener("DOMContentLoaded", () => {
-        const buttonCompra = document.querySelectorAll(".buttonCompra");
-        const tableCarrito = document.querySelector("#carritoRow");
+
+    const tableCarrito = document.querySelector("#carritoRow");
+    const buttonCompra = document.querySelectorAll(".buttonCompra");
+
+        if (localStorage.carrito){
+            tableCarrito.innerHTML = "";
+            JSON.parse(localStorage.carrito).forEach(producto => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                        <th id=${producto.id} scope="row">${producto.id}</th>
+                        <td>${producto.nombre}</td>
+                        <td>$ ${producto.precio}</td>
+                        <td>${producto.cantidad}</td>
+                    `
+                tableCarrito.appendChild(tr);
+            });
+        }
+        
         buttonCompra.forEach((button) => {
             button.addEventListener("click", (event) => {
                 const productId = parseInt(event.target.getAttribute("id"));

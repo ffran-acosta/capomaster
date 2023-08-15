@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
         div.style.width = "18rem"
         div.innerHTML =
             `
-            <img src="..." class="card-img-top" alt="...">
+            <img src=${producto.image} class="card-img-top" alt="...">
             <div class="card-body" id = ${producto.id}>
                 <h5 class="card-title">${producto.nombre}</h5>
                 <p class="card-text">Precio: ${producto.precio}.</p>
