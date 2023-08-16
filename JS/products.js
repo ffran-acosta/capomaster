@@ -1,4 +1,5 @@
 import productosDisponibles from '../data/db-productos.js'
+import renderCarrito from './carrito-render.js';
 
 document.addEventListener("DOMContentLoaded", () => {
     // HTML ELEMENTS

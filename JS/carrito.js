@@ -1,23 +1,11 @@
 import productosDisponibles from '../data/db-productos.js'
+import renderCarrito from './carrito-render.js';
 
 document.addEventListener("DOMContentLoaded", () => {
-
-    const tableCarrito = document.querySelector("#carritoRow");
     const buttonCompra = document.querySelectorAll(".buttonCompra");
 
         if (localStorage.carrito){
-            tableCarrito.innerHTML = "";
-            JSON.parse(localStorage.carrito).forEach(producto => {
-                const tr = document.createElement("tr");
-                tr.innerHTML = `
-                        <th id=${producto.id} scope="row">${producto.id}</th>
-                        <td>${producto.nombre}</td>
-                        <td>$ ${producto.precio}</td>
-                        <td><button type="button" class="btn btn-primary btn-sm buttonResta" id=${producto.id}>- </button>${producto.cantidad}<button type="button" class="btn btn-primary btn-sm buttonSuma" id=${producto.id}> +</button></td>
-                        <td>$ ${producto.cantidad * producto.precio}</td>
-                    `
-                tableCarrito.appendChild(tr);
-            });
+            renderCarrito()
         }
 
         buttonCompra.forEach((button) => {
@@ -43,22 +31,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
                     }
                 }
-
-                const carritoParaRender = JSON.parse(localStorage.getItem("carrito"))
-                tableCarrito.innerHTML = "";
-                carritoParaRender.forEach(producto => {
-                    const tr = document.createElement("tr");
-                    tr.innerHTML = `
-                        <th id=${producto.id} scope="row">${producto.id}</th>
-                        <td>${producto.nombre}</td>
-                        <td>$ ${producto.precio}</td>
-                        <td><button type="button" class="btn btn-primary btn-sm buttonResta" id=${producto.id}>- </button>${producto.cantidad}<button type="button" class="btn btn-primary btn-sm buttonSuma" id=${producto.id}> +</button></td>
-                        <td>$ ${producto.cantidad * producto.precio}</td>
-                    `
-                    tableCarrito.appendChild(tr);
-                });
+                renderCarrito()
             });
         });
+
+    const cantidadSpan = document.querySelectorAll(".cantidad-span")
 
     const buttonResta = document.querySelectorAll(".buttonResta");
     buttonResta.forEach((button) => {
@@ -68,9 +45,16 @@ document.addEventListener("DOMContentLoaded", () => {
             carrito.map(element => {
                 if (element.id === buttonId) {
                     element.cantidad--
+                    cantidadSpan.forEach(span => {
+                        const spanId = parseInt(span.getAttribute("id"));
+                        if (spanId == buttonId) {
+                            span.innerText = element.cantidad
+                        }
+                    })
                 } return element
             })
             localStorage.setItem("carrito", JSON.stringify(carrito));
+            
         });
     })
 
@@ -82,10 +66,15 @@ document.addEventListener("DOMContentLoaded", () => {
             carrito.map(element => {
                 if (element.id === buttonId) {
                     element.cantidad++
+                    cantidadSpan.forEach(span => {
+                        const spanId = parseInt(span.getAttribute("id"));
+                        if (spanId == buttonId) {
+                            span.innerText = element.cantidad
+                        }
+                    })
                 } return element
             })
             localStorage.setItem("carrito", JSON.stringify(carrito));
         });      
     })
-
 })
