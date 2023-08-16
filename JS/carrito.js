@@ -13,12 +13,13 @@ document.addEventListener("DOMContentLoaded", () => {
                         <th id=${producto.id} scope="row">${producto.id}</th>
                         <td>${producto.nombre}</td>
                         <td>$ ${producto.precio}</td>
-                        <td>${producto.cantidad}</td>
+                        <td><button type="button" class="btn btn-primary btn-sm buttonResta" id=${producto.id}>- </button>${producto.cantidad}<button type="button" class="btn btn-primary btn-sm buttonSuma" id=${producto.id}> +</button></td>
+                        <td>$ ${producto.cantidad * producto.precio}</td>
                     `
                 tableCarrito.appendChild(tr);
             });
         }
-        
+
         buttonCompra.forEach((button) => {
             button.addEventListener("click", (event) => {
                 const productId = parseInt(event.target.getAttribute("id"));
@@ -51,10 +52,40 @@ document.addEventListener("DOMContentLoaded", () => {
                         <th id=${producto.id} scope="row">${producto.id}</th>
                         <td>${producto.nombre}</td>
                         <td>$ ${producto.precio}</td>
-                        <td>${producto.cantidad}</td>
+                        <td><button type="button" class="btn btn-primary btn-sm buttonResta" id=${producto.id}>- </button>${producto.cantidad}<button type="button" class="btn btn-primary btn-sm buttonSuma" id=${producto.id}> +</button></td>
+                        <td>$ ${producto.cantidad * producto.precio}</td>
                     `
                     tableCarrito.appendChild(tr);
                 });
             });
         });
+
+    const buttonResta = document.querySelectorAll(".buttonResta");
+    buttonResta.forEach((button) => {
+        button.addEventListener("click", (event) => {
+            const buttonId = parseInt(event.target.getAttribute("id"));
+            const carrito = JSON.parse(localStorage.carrito)
+            carrito.map(element => {
+                if (element.id === buttonId) {
+                    element.cantidad--
+                } return element
+            })
+            localStorage.setItem("carrito", JSON.stringify(carrito));
+        });
+    })
+
+    const buttonSuma = document.querySelectorAll(".buttonSuma");
+    buttonSuma.forEach((button) => {
+        button.addEventListener("click", (event) => {
+            const buttonId = parseInt(event.target.getAttribute("id"));
+            const carrito = JSON.parse(localStorage.carrito)
+            carrito.map(element => {
+                if (element.id === buttonId) {
+                    element.cantidad++
+                } return element
+            })
+            localStorage.setItem("carrito", JSON.stringify(carrito));
+        });      
+    })
+
 })
